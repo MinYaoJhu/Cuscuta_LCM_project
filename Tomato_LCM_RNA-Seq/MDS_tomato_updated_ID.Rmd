@@ -1,0 +1,81 @@
+---
+title: "MDS.tomato.updated"
+author: "Min-Yao"
+date: "2021/05/10"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r}
+# library
+library(limma)
+library(edgeR)
+```
+
+```{r}
+# read in data
+raw.data <- read.csv("TMM-Counts-Unaveraged_all_Libraries_combined.csv", row.names=1)
+Normexplog<- log(raw.data,2)  
+pdf("boxplot.all.pdf")
+boxplot (Normexplog)
+dev.off()
+```
+
+```{r}
+# read in data
+length(raw.data$Intermediate_Tom_21) #34075
+sub <- subset(raw.data,rowSums(raw.data) > 23)
+length(sub$Intermediate_Tom_21) #21159
+```
+
+```{r}
+# normalization
+y <- DGEList(counts=sub)
+y <- calcNormFactors(y)
+y$pseudo<- equalizeLibSizes(y)
+write.csv (y$pseudo$pseudo.counts,"tomato.LCM.norm.23.csv")
+```
+
+```{r}
+# read in norm data
+data <- read.csv("tomato.LCM.norm.23.csv", row.names=1)
+dim(data) #21159    23
+```
+
+```{r}
+#Boxplot
+Normexplog<- log(data,2)  
+pdf("boxplot.norm.23.all.pdf")
+boxplot (Normexplog)
+dev.off()
+```
+
+```{r}
+## MDS using dist and cmdscale
+# library
+library(ggplot2)
+```
+
+```{r}
+m <- cmdscale(dist(scale(t(data))))
+colnames(m) <- c("x", "y")
+m<-as.data.frame(m)
+m$sample <- c("Inter_T", "Inter_T", "Inter_T", "Inter_T", "C", "C", "C", "C", "Mature_T", "Mature_T", "Mature_T", "C", "C", "C", "C", "Early_T", "Early_T", "Early_T", "Early_T", "Early_T", "Early_T", "Early_T", "Early_T")
+m
+row.names(m)
+```
+
+```{r}
+pdf("MDScmdscale.all.pdf",height=6,width=8)
+ggplot(m, aes(x,y,colour=sample))+geom_point(size=5)+theme_bw()
+dev.off()
+
+pdf("MDScmdscale.all_text.pdf",height=6,width=8)
+ggplot(m, aes(x,y,colour=sample))+geom_point(size=5)+theme_bw()+geom_text(aes(label=row.names(m)),hjust=-0.1, vjust=-0.1)
+dev.off()
+```
+
+
+
+

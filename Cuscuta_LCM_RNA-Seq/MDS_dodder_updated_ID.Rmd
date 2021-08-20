@@ -1,0 +1,79 @@
+---
+title: "MDS.dodder.updated"
+author: "Min-Yao"
+date: "2020/11/02"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r}
+# library
+library(limma)
+library(edgeR)
+```
+
+```{r}
+# read in data
+raw.data <- read.csv("TMM for 10 libs_LCM.csv", row.names=1)
+Normexplog<- log(raw.data,2)  
+pdf("boxplot.all.pdf")
+boxplot (Normexplog)
+dev.off()
+```
+
+```{r}
+# read in data
+length(raw.data$Inter_16) #47383
+sub <- subset(raw.data,rowSums(raw.data) > 10)
+length(sub$Inter_16) #34232
+```
+
+```{r}
+# normalization
+y <- DGEList(counts=sub)
+y <- calcNormFactors(y)
+y$pseudo<- equalizeLibSizes(y)
+write.csv (y$pseudo$pseudo.counts,"dodder.LCM.norm.10.csv")
+```
+
+```{r}
+# read in norm data
+data <- read.csv("dodder.LCM.norm.10.csv", row.names=1)
+dim(data) #34232    40
+```
+
+```{r}
+#Boxplot
+Normexplog<- log(data,2)  
+pdf("boxplot.norm.10.all.pdf")
+boxplot (Normexplog)
+dev.off()
+```
+
+```{r}
+## MDS using dist and cmdscale
+# library
+library(ggplot2)
+```
+
+```{r}
+m <- cmdscale(dist(scale(t(data))))
+colnames(m) <- c("x", "y")
+m<-as.data.frame(m)
+m$sample <- c("Inter", "Inter", "Inter", "Mature", "Mature", "Early", "Early", "Early", "Early", "Early")
+```
+
+```{r}
+pdf("MDScmdscale.all.pdf",height=6,width=8)
+ggplot(m, aes(x,y,colour=sample))+geom_point(size=5)+theme_bw()
+dev.off()
+
+pdf("MDScmdscale.all_text.pdf",height=6,width=8)
+ggplot(m, aes(x,y,colour=sample))+geom_point(size=5)+theme_bw()+geom_text(aes(label=row.names(m)),hjust=-0.1, vjust=-0.1)
+dev.off()
+```
+
+
+
+

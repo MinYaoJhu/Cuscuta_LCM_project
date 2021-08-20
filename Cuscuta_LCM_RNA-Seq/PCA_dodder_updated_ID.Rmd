@@ -1,0 +1,157 @@
+---
+title: "PCA_dodder_updated"
+author: "Yasu & Min-Yao"
+date: "2020/11/02"
+output: html_document
+---
+
+```{r}
+## Read in data and make average value data
+data <- read.csv("dodder.LCM.norm.10.csv", row.names=1)
+names(data)
+head(data)
+data$Inter <- rowMeans(subset(data[1:3]))
+data$Mature <- rowMeans(subset(data[4:5]))
+data$Early <- rowMeans(subset(data[6:10]))
+
+ave <- subset(data[11:13])
+ave$sd <- apply(ave,1,function(d)sd(d))
+ave$average <- rowMeans(subset(ave[1:3]))
+ave$cv <- ave$sd / ave$average
+#write.csv(ave,"Dodder.LCM.ave.csv")
+```
+
+```{r}
+## Read in data
+data<- read.csv("Dodder.LCM.ave.csv",header=TRUE)
+data[is.na(data)] <- 0
+names(data)
+head(data)
+attach(data)
+```
+
+```{r}
+## count No. of expressed genes for each stage
+length(data$X)                           #34232
+length(subset(data,Inter>0.1)$X)       #34081
+length(subset(data,Mature>0.1)$X)     #34066
+length(subset(data,Early>0.1)$X)  #34037
+```
+
+```{r}
+## Select only those genes upper 50% CV
+quantile(data$cv) 
+sub.data <- subset(data, cv > 0.366219327)
+head(sub.data)
+length(sub.data$X) #9637
+```
+
+```{r}
+## Create a matrix of the data to perform a PCA on and scale it
+#library(clusterSim)
+m.sub.data <- as.matrix(sub.data[2:4])
+head(m.sub.data)
+#sc.sub.data <- data.Normalization(m.sub.data, type = "n1", normalization = "row")
+sc.sub.data <- t(scale(t(m.sub.data)))
+tisdata <- as.matrix( sc.sub.data, dimnames=list(rownames(X)) )
+head(tisdata)
+
+#     Cc_10DPA Cc_21DPA    Cc_4DPA
+# 7  3.7129051 9.384508 16.7153672
+# 10 0.1491551 2.704866  1.8089941
+# 12 1.6427488 5.325058  2.1157885
+# 30 7.9836393 4.411573  0.5683610
+# 34 0.5389776 1.576978  0.6795765
+# 38 5.0499432 1.266534  5.1499009
+
+#      Cc_10DPA   Cc_21DPA    Cc_4DPA
+# 7  -0.9548749 -0.0848440  1.0397189
+# 10 -1.0836221  0.8872416  0.1963805
+# 12 -0.6913697  1.1466255 -0.4552558
+# 30  0.9875914  0.0243717 -1.0119631
+# 34 -0.6976754  1.1456669 -0.4479915
+# 38  0.5546268 -1.1544062  0.5997795
+
+
+```
+
+```{r}
+## Perform the PCA
+library(ggplot2)
+tispca <- prcomp(tisdata, scale=TRUE)
+summary(tispca)
+
+#used 25% cv dataset#
+#Importance of components:
+#                          PC1    PC2    PC3    PC4     PC5      PC6
+#Standard deviation     1.3657 1.3173 1.0965 0.8711 0.66222 3.04e-15
+#Proportion of Variance 0.3109 0.2892 0.2004 0.1265 0.07309 0.00e+00
+#Cumulative Proportion  0.3109 0.6001 0.8004 0.9269 1.00000 1.00e+00
+
+# Importance of components:
+#                           PC1    PC2       PC3
+# Standard deviation     1.3354 1.1031 6.886e-16
+# Proportion of Variance 0.5944 0.4056 0.000e+00
+# Cumulative Proportion  0.5944 1.0000 1.000e+00
+```
+
+```{r}
+## Retrieve PCA scores
+tis.pca.scores <- data.frame(tispca$x)
+names(tis.pca.scores)
+#rownames(tis.pca.scores)
+#head(tis.pca.scores)
+```
+
+```{r}
+## Write out master data files with original data, scaled data, and PCA results
+data.val <- cbind(sub.data,sc.sub.data,tis.pca.scores)
+data.val2 <- cbind(sub.data,tis.pca.scores)
+write.table(data.val, file="pca.scores.LCM.txt")
+write.table(tispca$rotation, "loadings.LCM.txt")
+head(data.val2)
+```
+
+```{r}
+pdf("plain.LCM.PC1PC2.pdf", width=6, height=6)
+t <- ggplot(data.val2, aes(PC1, PC2))
+t + geom_point(alpha=0.2, size=2.5) + theme_bw() 
+dev.off()
+
+# tiff("plain.LCM.PC1PC2.tif", width=8, height=8, unit="in",compression="lzw",res=100)
+# t <- ggplot(data.val2, aes(PC1, PC2))
+# t + geom_point(alpha=0.20) + theme_bw() 
+# dev.off()
+```
+
+```{r}
+# pdf("plain.LCM.PC3PC4.pdf", width=6, height=6)
+# t <- ggplot(data.val2, aes(PC3, PC4))
+# t + geom_point(alpha=0.2, size=2.5) + theme_bw()
+# dev.off()
+
+# tiff("plain.LCM.PC3PC4.tif", width=8, height=8, unit="in",compression="lzw",res=100)
+# t <- ggplot(data.val2, aes(PC3, PC4))
+# t + geom_point(alpha=0.20) + theme_bw() 
+# dev.off()
+```
+
+```{r}
+library(ggplot2)
+library(reshape)
+load <- read.table("loadings.LCM.txt")
+load <- load[1:2]
+load$sample <- c("Inter","Mature","Early")
+m.load<-melt(load,id=c("sample"))
+
+pdf("loadings.LCM.pdf", width=6, height=8)
+ggplot(m.load,aes(x = sample, y = value)) + geom_bar(width=.7, stat='identity') + theme_bw() + facet_wrap(~variable)
+dev.off()
+
+# tiff("loadings.LCM.tif", width=5, height=8, unit="in",compression="lzw",res=100)
+# ggplot(m.load,aes(x = sample, y = value)) + geom_bar(width=.7, stat='identity') + theme_bw() + facet_wrap(~variable)
+# dev.off()
+```
+
+
+
