@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the article below."
+title: "Cuscuta LCM RNA-seq: tissue-specific transcriptomics of the Cuscuta campestris–tomato haustorial interface"
+type: software
+version: 1.0.0
+date-released: "2026-11-10"
+abstract: >-
+  R Markdown notebooks and normalized count tables for laser capture
+  microdissection RNA-seq of Cuscuta campestris haustoria and tomato host stem
+  tissue at early, intermediate and mature haustorial stages: filtering, edgeR
+  TMM normalization, MDS, PCA and self-organizing maps. Verified to run with
+  R 4.5.3 in November 2026.
+authors:
+  - family-names: Jhu
+    given-names: Min-Yao
+    affiliation: Donald Danforth Plant Science Center
+    orcid: "https://orcid.org/0000-0002-8654-0977"
+repository-code: "https://github.com/MinYaoJhu/Cuscuta_LCM_project"
+license: MIT
+keywords:
+  - Cuscuta campestris
+  - parasitic plant
+  - haustorium
+  - tomato
+  - laser capture microdissection
+  - RNA-seq
+  - self-organizing map
+preferred-citation:
+  type: article
+  title: "Investigating host and parasitic plant interaction by tissue-specific gene analyses on tomato and Cuscuta campestris interface at three haustorial developmental stages"
+  authors:
+    - family-names: Jhu
+      given-names: Min-Yao
+      orcid: "https://orcid.org/0000-0002-8654-0977"
+    - family-names: Farhi
+      given-names: Moran
+    - family-names: Wang
+      given-names: Li
+    - family-names: Zumstein
+      given-names: Kristina
+    - family-names: Sinha
+      given-names: Neelima R.
+  journal: "Frontiers in Plant Science"
+  volume: 12
+  start: 764843
+  year: 2022
+  doi: 10.3389/fpls.2021.764843
