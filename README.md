@@ -103,7 +103,7 @@ If you use this code or data, please cite the article above. GitHub's **"Cite th
 
 ## AI assistance
 
-Documentation, figures and reproducibility checks in this repository were updated with the assistance of Claude Opus 5.5 (Anthropic), used through Claude Code. The original analysis code was written by the authors. All changes were directed, reviewed and approved by the author, who takes full responsibility for the content.
+Documentation, figures and reproducibility checks in this repository were updated with the assistance of Claude Opus 5.5 (Anthropic), used through Claude Code. The original analysis code was written by Min-Yao Jhu. All changes were directed, reviewed and approved by the author, who takes full responsibility for the content.
 
 ## Contact
 
