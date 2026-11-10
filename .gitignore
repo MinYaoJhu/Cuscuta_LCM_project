@@ -1,0 +1,21 @@
+# Rendered reports and figures created when the notebooks are run
+*.html
+*_files/
+*_updated_ID.md
+*.pdf
+
+# Intermediate files written by the notebooks (recreated on every run)
+dodder.LCM.norm.10.csv
+tomato.LCM.norm.23.csv
+Dodder.LCM.ave.csv
+tomato.LCM.ave.csv
+pca.scores.LCM.txt
+loadings.LCM.txt
+supersom.data.LCM.3x2.csv
+codes.LCM.3x2.txt
+
+# R and OS files
+.Rhistory
+.RData
+.Rproj.user/
+.DS_Store

@@ -1,5 +1,5 @@
 ---
-title: "PCA_dodder_updated"
+title: "PCA_tomato_updated"
 author: "Yasu & Min-Yao"
 date: "2021/05/19"
 output: html_document

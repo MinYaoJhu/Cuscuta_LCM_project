@@ -18,7 +18,7 @@ ave <- subset(data[11:13])
 ave$sd <- apply(ave,1,function(d)sd(d))
 ave$average <- rowMeans(subset(ave[1:3]))
 ave$cv <- ave$sd / ave$average
-#write.csv(ave,"Dodder.LCM.ave.csv")
+write.csv(ave,"Dodder.LCM.ave.csv")
 ```
 
 ```{r}
