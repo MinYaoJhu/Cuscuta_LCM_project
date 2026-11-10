@@ -32,10 +32,10 @@ attach(data)
 
 ```{r}
 ## count No. of expressed genes for each stage
-length(data$X)                           #34232
-length(subset(data,Inter>0.1)$X)       #34081
-length(subset(data,Mature>0.1)$X)     #34066
-length(subset(data,Early>0.1)$X)  #34037
+length(data$X)                           #33034
+length(subset(data,Inter>0.1)$X)       #32915
+length(subset(data,Mature>0.1)$X)     #32488
+length(subset(data,Early>0.1)$X)  #33000
 ```
 
 ```{r}
@@ -43,7 +43,7 @@ length(subset(data,Early>0.1)$X)  #34037
 quantile(data$cv) 
 sub.data <- subset(data, cv > 0.366219327)
 head(sub.data)
-length(sub.data$X) #9637
+length(sub.data$X) #16517
 ```
 
 ```{r}

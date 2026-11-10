@@ -24,9 +24,9 @@ dev.off()
 
 ```{r}
 # read in data
-length(raw.data$Inter_16) #47383
+length(raw.data$Inter_16) #47599
 sub <- subset(raw.data,rowSums(raw.data) > 10)
-length(sub$Inter_16) #34232
+length(sub$Inter_16) #33034
 ```
 
 ```{r}
@@ -40,7 +40,7 @@ write.csv (y$pseudo$pseudo.counts,"dodder.LCM.norm.10.csv")
 ```{r}
 # read in norm data
 data <- read.csv("dodder.LCM.norm.10.csv", row.names=1)
-dim(data) #34232    40
+dim(data) #33034    10
 ```
 
 ```{r}
