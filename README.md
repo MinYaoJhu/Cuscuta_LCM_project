@@ -6,6 +6,7 @@
 ![R](https://img.shields.io/badge/R-4.5.3-276DC3?logo=r&logoColor=white)
 ![Bioconductor](https://img.shields.io/badge/edgeR-limma-1A81C2)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24096768.svg)](https://doi.org/10.5281/zenodo.24096768)
 
 This repository contains the analysis code and normalized data for:
 
@@ -99,7 +100,7 @@ Raw sequencing data are available from NCBI under BioProjects [PRJNA687611](http
 
 ## Citation
 
-If you use this code or data, please cite the article above. GitHub's **"Cite this repository"** button (from [`CITATION.cff`](CITATION.cff)) gives the citation in APA and BibTeX formats.
+If you use this code or data, please cite the article above and the archived code: Jhu M-Y (2026). *Cuscuta LCM RNA-seq* (v1.0.0). Zenodo. [doi:10.5281/zenodo.24096768](https://doi.org/10.5281/zenodo.24096768). GitHub's **"Cite this repository"** button (from [`CITATION.cff`](CITATION.cff)) gives the citation in APA and BibTeX formats.
 
 ## AI assistance
 
